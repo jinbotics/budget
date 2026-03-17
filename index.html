@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>인공지능융합학부 예산 현황</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --surface2: #eceef2;
+  --border: #d8dbe3;
+  --text: #111318;
+  --text2: #5a5f6e;
+  --text3: #9198a8;
+  --accent: #1e3a6e;
+  --accent-light: #e6ecf7;
+  --accent-mid: #2e55a8;
+  --warn: #b91c1c;
+  --warn-light: #fef2f2;
+  --warn-border: #fecaca;
+  --radius: 10px;
+  --radius-lg: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── LOGIN ── */
+#loginWrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+.login-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 380px;
+}
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.75rem;
+}
+.login-logo-mark {
+  width: 34px; height: 34px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.login-logo-mark svg { width: 18px; height: 18px; fill: #fff; }
+.login-logo-text { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.login-logo-text span { display: block; font-size: 11px; font-weight: 400; color: var(--text2); }
+.login-heading { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
+.login-sub { font-size: 13px; color: var(--text2); margin-bottom: 1.75rem; }
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+.field label { font-size: 12px; font-weight: 500; color: var(--text2); }
+.field input {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.field input:focus { border-color: var(--accent-mid); box-shadow: 0 0 0 3px var(--accent-light); }
+.login-btn {
+  width: 100%;
+  padding: 11px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: opacity 0.15s;
+}
+.login-btn:hover { opacity: 0.88; }
+.err-msg {
+  font-size: 12px;
+  color: var(--warn);
+  background: var(--warn-light);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  margin-top: 0.75rem;
+  display: none;
+}
+.token-hint {
+  font-size: 11px;
+  color: var(--text3);
+  text-align: center;
+  margin-top: 1.25rem;
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── DASHBOARD ── */
+#dashWrap { display: none; }
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.topbar-left { display: flex; align-items: center; gap: 10px; }
+.topbar-mark {
+  width: 26px; height: 26px;
+  background: var(--accent);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.topbar-mark svg { width: 14px; height: 14px; fill: #fff; }
+.topbar-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.topbar-user { font-size: 12px; color: var(--text2); }
+.logout-btn {
+  font-size: 12px;
+  color: var(--text2);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.12s;
+}
+.logout-btn:hover { background: var(--surface2); }
+
+.main { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+.page-title { font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
+.page-sub { font-size: 13px; color: var(--text2); margin-bottom: 1.75rem; }
+
+.summary-bars { display: flex; flex-direction: column; gap: 16px; margin-bottom: 1.75rem; }
+.sbar-item {}
+.sbar-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.sbar-label { font-size: 13px; font-weight: 500; color: var(--text); }
+.sbar-nums { font-size: 12px; color: var(--text2); font-family: 'DM Mono', monospace; }
+.sbar-track { height: 10px; background: var(--surface2); border-radius: 5px; overflow: hidden; }
+.sbar-fill { height: 100%; border-radius: 5px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+
+.section { margin-bottom: 1.75rem; }
+.section-head { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 12px; }
+
+.bar-list { display: flex; flex-direction: column; gap: 12px; }
+.bar-item {}
+.bar-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
+.bar-name { font-size: 13px; color: var(--text); font-weight: 500; }
+.bar-nums { font-size: 11px; color: var(--text2); font-family: 'DM Mono', monospace; }
+.bar-track {
+  height: 7px;
+  background: var(--surface2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.7s cubic-bezier(.4,0,.2,1);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+thead th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text2);
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+tbody td {
+  padding: 11px 14px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--bg); }
+.amount-cell { font-family: 'DM Mono', monospace; font-size: 12px; }
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+}
+.badge-used { background: var(--warn-light); color: var(--warn); }
+
+.notice {
+  background: var(--warn-light);
+  border: 1px solid var(--warn-border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-size: 12px;
+  color: var(--warn);
+  margin-bottom: 1.75rem;
+}
+
+@media (max-width: 500px) {
+  .metrics { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .metric-value { font-size: 18px; }
+  .main { padding: 1.25rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginWrap">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a4 4 0 0 1 4 4c0 .6-.1 1.2-.3 1.7A4 4 0 0 1 19 11a4 4 0 0 1-2 3.5V16a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-1.5A4 4 0 0 1 5 11a4 4 0 0 1 3.3-3.9A4 4 0 0 1 12 2z"/>
+          <line x1="9" y1="12" x2="9" y2="12.5"/>
+          <line x1="12" y1="11" x2="12" y2="11.5"/>
+          <line x1="15" y1="12" x2="15" y2="12.5"/>
+          <path d="M9 18v2M15 18v2"/>
+        </svg>
+      </div>
+      <div class="login-logo-text">
+        인공지능융합학부
+        <span>삼육대학교 · 예산 현황 시스템</span>
+      </div>
+    </div>
+    <div class="login-heading" id="loginHeading">예산 현황 조회</div>
+    <div class="field">
+      <label>비밀번호</label>
+      <input type="password" id="pwInput" placeholder="비밀번호 입력" autocomplete="current-password" />
+    </div>
+    <button class="login-btn" onclick="doLogin()">로그인</button>
+    <div class="err-msg" id="errMsg">비밀번호가 일치하지 않습니다.</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashWrap">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 .6-.1 1.2-.3 1.7A4 4 0 0 1 19 11a4 4 0 0 1-2 3.5V16a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-1.5A4 4 0 0 1 5 11a4 4 0 0 1 3.3-3.9A4 4 0 0 1 12 2z"/><line x1="9" y1="12" x2="9" y2="12.5"/><line x1="12" y1="11" x2="12" y2="11.5"/><line x1="15" y1="12" x2="15" y2="12.5"/><path d="M9 18v2M15 18v2"/></svg>
+      </div>
+      <div class="topbar-title">인공지능융합학부 · 예산 현황</div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-user" id="topbarUser"></div>
+      <button class="logout-btn" onclick="doLogout()">로그아웃</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="page-title" id="pageTitle"></div>
+    <div class="page-sub" id="pageSub"></div>
+    <div class="notice" id="noticeBox" style="display:none"></div>
+    <div class="summary-bars" id="summaryBars"></div>
+    <div class="section">
+      <div class="section-head">최근 사용 내역</div>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:40%">날짜</th>
+              <th style="width:60%">금액</th>
+            </tr>
+          </thead>
+          <tbody id="histBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const fmt = n => Number(n).toLocaleString('ko-KR') + '원';
+const fmtM = n => (n / 10000).toFixed(0) + '만원';
+const pct = (u, t) => Math.min(100, Math.round(u / t * 100));
+
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzWKLOPA0Vqyj6Nvh03uZEWToQDg3y91MSxpKmF5W3RbymC8yuxWY2Ukf04KK9tx_hb/exec';
+
+const TOKEN_NAMES = {
+  'b7fe80f4de37': '신용재',
+  '78508a591e4e': '최민석',
+  'bcec0db7f678': '최성욱',
+  '9fbca6af1d5c': '하항래',
+  'f79e1b82efa8': '고장혁',
+  'abf2d51da7bd': '류한철',
+  'f7a859d4116f': '성동준',
+  'b1fef162b398': '양민규',
+  '694d5e0de6c9': '정재승',
+};
+
+const TOKEN_TITLE = {
+  '9fbca6af1d5c': '목사님',
+};
+
+function getTitle(token) {
+  return TOKEN_TITLE[token] || '교수님';
+}
+
+let currentToken = null;
+
+function getToken() {
+  return location.hash.replace('#', '') || null;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const token = getToken();
+  if (token && TOKEN_NAMES[token]) {
+    currentToken = token;
+    const name = TOKEN_NAMES[token];
+    const title = getTitle(token);
+    document.getElementById('loginHeading').textContent = name + ' ' + title;
+  } else if (token) {
+    const err = document.getElementById('errMsg');
+    err.style.display = 'block';
+    err.textContent = '유효하지 않은 링크입니다. 조교에게 문의해주세요.';
+    document.getElementById('pwInput').disabled = true;
+    document.querySelector('.login-btn').disabled = true;
+  } else {
+    document.querySelector('.field').style.display = 'none';
+    document.querySelector('.login-btn').style.display = 'none';
+    document.getElementById('loginHeading').textContent = '예산 현황 조회';
+    const err = document.getElementById('errMsg');
+    err.style.display = 'block';
+    err.style.background = 'var(--accent-light)';
+    err.style.color = 'var(--accent)';
+    err.textContent = '조교에게 개인 링크를 요청해주세요.';
+  }
+});
+
+async function doLogin() {
+  if (!currentToken) return;
+  const pw = document.getElementById('pwInput').value.trim();
+  if (!pw) return;
+
+  const btn = document.querySelector('.login-btn');
+  btn.textContent = '확인 중...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`${SCRIPT_URL}?token=${currentToken}&pw=${encodeURIComponent(pw)}`);
+    const data = await res.json();
+
+    if (data.ok) {
+      showDashboard(data);
+    } else {
+      const err = document.getElementById('errMsg');
+      err.style.display = 'block';
+      err.style.background = 'var(--warn-light)';
+      err.style.color = 'var(--warn)';
+      err.textContent = data.error === 'wrong_pw' ? '비밀번호가 일치하지 않습니다.' : '오류가 발생했습니다. 다시 시도해주세요.';
+      document.getElementById('pwInput').value = '';
+    }
+  } catch (e) {
+    const err = document.getElementById('errMsg');
+    err.style.display = 'block';
+    err.textContent = '네트워크 오류입니다. 다시 시도해주세요.';
+  } finally {
+    btn.textContent = '로그인';
+    btn.disabled = false;
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+function showDashboard(data) {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('dashWrap').style.display = 'block';
+
+  const title = getTitle(currentToken);
+  const fullTitle = data.name + ' ' + title;
+
+  document.getElementById('topbarUser').textContent = fullTitle;
+  document.getElementById('pageTitle').textContent = fullTitle + ' 예산 현황';
+  document.getElementById('pageSub').textContent = '2025년도 인공지능융합학부 연구·교육 예산';
+
+  const usePct = pct(data.used, data.total);
+
+  if (usePct >= 90) {
+    const nb = document.getElementById('noticeBox');
+    nb.style.display = 'block';
+    nb.textContent = '⚠ 총 예산 사용률이 ' + usePct + '%입니다. 잔여 예산 확인 후 집행해주세요.';
+  }
+
+  const summaryBars = document.getElementById('summaryBars');
+  summaryBars.innerHTML = `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;display:flex;justify-content:space-between;align-items:baseline;">
+      <span style="font-size:13px;font-weight:500;color:var(--text2);">총 예산</span>
+      <span style="font-size:20px;font-weight:600;font-family:'DM Mono',monospace;color:var(--text);">${fmtM(data.total)}</span>
+    </div>
+    ${[
+      { label: '사용 금액', value: data.used,   pctVal: usePct,         color: '#b91c1c' },
+      { label: '잔여 예산', value: data.remain, pctVal: 100 - usePct,   color: '#1e3a6e' },
+    ].map(s => `
+    <div class="sbar-item">
+      <div class="sbar-meta">
+        <span class="sbar-label">${s.label}</span>
+        <span class="sbar-nums">${fmtM(s.value)} · ${s.pctVal}%</span>
+      </div>
+      <div class="sbar-track">
+        <div class="sbar-fill" style="width:0%;background:${s.color}" data-w="${s.pctVal}"></div>
+      </div>
+    </div>`).join('')}
+  `;
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.sbar-fill').forEach(el => {
+      el.style.width = el.dataset.w + '%';
+    });
+  });
+
+  const tbody = document.getElementById('histBody');
+  tbody.innerHTML = '';
+  if (data.history && data.history.length > 0) {
+    data.history.forEach(h => {
+      tbody.innerHTML += `<tr>
+        <td>${h.date}</td>
+        <td class="amount-cell">${fmt(h.amount)}</td>
+      </tr>`;
+    });
+  } else {
+    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;color:var(--text3);padding:1.5rem;">내역이 없습니다.</td></tr>';
+  }
+}
+
+function doLogout() {
+  document.getElementById('dashWrap').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('pwInput').value = '';
+  document.getElementById('errMsg').style.display = 'none';
+}
+</script>
+</body>
+</html>
