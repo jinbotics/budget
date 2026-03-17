@@ -299,8 +299,9 @@ tbody tr:hover { background: var(--bg); }
 
 <script>
 const fmt = n => Number(n).toLocaleString('ko-KR') + '원';
-const fmtM = n => (n / 10000).toFixed(0) + '만원';
+const fmtM = n => Number(n).toLocaleString('ko-KR') + '원';
 const pct = (u, t) => Math.min(100, Math.round(u / t * 100));
+const fmtDate = d => { if (!d) return ''; const date = new Date(d); if (isNaN(date)) return d; const y = date.getFullYear(); const m = String(date.getMonth() + 1).padStart(2, '0'); const day = String(date.getDate()).padStart(2, '0'); return y + '-' + m + '-' + day; };
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjVq6ZPLS3I_7JNQNvgnuDX38wIPYsKmFomtd0T6WzaqsnWrsKdv6bNCMmJLufsOwy/exec';
 
@@ -443,7 +444,7 @@ function showDashboard(data) {
   if (data.history && data.history.length > 0) {
     data.history.forEach(h => {
       tbody.innerHTML += `<tr>
-        <td>${h.date}</td>
+        <td>${fmtDate(h.date)}</td>
         <td class="amount-cell">${fmt(h.amount)}</td>
       </tr>`;
     });
