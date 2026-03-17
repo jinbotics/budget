@@ -365,7 +365,7 @@ async function doLogin() {
   btn.disabled = true;
 
   try {
-    const res = await fetch(`${SCRIPT_URL}?token=${currentToken}&pw=${encodeURIComponent(pw)}`);
+    const res = await fetch(`${SCRIPT_URL}?token=${currentToken}&pw=${encodeURIComponent(pw)}`, { redirect: 'follow' });
     const data = await res.json();
 
     if (data.ok) {
