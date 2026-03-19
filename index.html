@@ -287,7 +287,7 @@ tbody tr:hover { background: var(--bg); }
   <div class="topbar">
     <div class="topbar-left">
       <div class="topbar-mark"><span class="topbar-text-ai">ai</span></div>
-      <div class="topbar-title">인공지능융합학부 · 예산 현황</div>
+      <div class="topbar-title">인공지능융합학부 · 예산</div>
     </div>
     <div class="topbar-right">
       <div class="topbar-user" id="topbarUser"></div>
@@ -472,7 +472,7 @@ function showDashboard(data) {
 
   document.getElementById('topbarUser').textContent = fullTitle;
   document.getElementById('pageTitle').textContent = fullTitle + ' 예산 현황';
-  document.getElementById('pageSub').textContent = '2025년도 인공지능융합학부 연구·교육 예산';
+  document.getElementById('pageSub').textContent = '2026년도 예산';
   document.getElementById('noticeBox').style.display = 'none';
 
   const usePct = pct(data.used, data.total);
